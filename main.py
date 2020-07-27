@@ -5,6 +5,7 @@ import binascii
 import multiprocessing
 from ellipticcurve.privateKey import PrivateKey
 
+
 def generate_private_key():
     return binascii.hexlify(os.urandom(32)).decode('utf-8').upper()
 
