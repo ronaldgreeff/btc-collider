@@ -36,12 +36,13 @@ def main():
     wallets = [i.strip() for i in file.readlines()]
 
     i = 0
+
     while True:
         private_key = generate_private_key()
         public_key = private_key_to_public_key(private_key)
         address = public_key_to_address(public_key)
 
-        print('{} {}'.format(i, address))
+        print(i)
         i+=1
 
         if address in wallets:
@@ -53,3 +54,8 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+    # import multiprocessing
+
+    # for cpu in range(multiprocessing.cpu_count()):
+    #     multiprocessing.Process(target = main).start()
