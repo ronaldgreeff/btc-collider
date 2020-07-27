@@ -31,12 +31,16 @@ def public_key_to_address(public_key):
     return ''.join(output[::-1])
 
 def main():
-    while True:
-        private_key = generate_private_key()
-        public_key = private_key_to_public_key(private_key)
-        address = public_key_to_address(public_key)
 
-        print("{} - {}".format(private_key, address))
+    file = open('data')
+    x = [i.strip() for i in file.readlines()]
+
+    # while True:
+    #     private_key = generate_private_key()
+    #     public_key = private_key_to_public_key(private_key)
+    #     address = public_key_to_address(public_key)
+
+    #     print("{} - {}".format(private_key, address))
 
 if __name__ == '__main__':
     main()

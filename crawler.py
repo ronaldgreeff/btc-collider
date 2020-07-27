@@ -1,5 +1,5 @@
 import os
-import csv
+import json
 import selenium
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
@@ -27,7 +27,7 @@ class Driver(Driver_Config):
         self.driver.quit()
 
     def process_page(self, url):
-        """ """
+        """ Try to inject script and get results """
         try:
             try:
                 self.driver.get(url)
@@ -35,25 +35,34 @@ class Driver(Driver_Config):
                 self.quit(m='failed to get url: {}'.format(e))
 
             extract = self.driver.execute_script(self.script)
-            return extract # .encode('utf-8')
+            return extract
 
         except Exception as e:
             self.quit(m='failed to process_page: {}'.format(e))
+
 
 if __name__ == '__main__':
 
     script = os.path.join(os.path.dirname(__file__), 'inject.js')
     slnm_driver = Driver(script)
 
-    for i in range(1, 101):
-        url = 'https://bitinfocharts.com/top-100-richest-bitcoin-addresses-{}.html'.format(i)
-        extract = slnm_driver.process_page(url)
-        if extract:
-            for c, e in enumerate(extract):
-                print(c, e)
-            # with open('data.csv', 'w', newline='') as csvfile:
-            #     data_w = csv.writer(csvfile, delimiter=' ',
-            #                         quotechar='|', quoting=csv.QUOTE_MINIMAL)
-            #     for e in extract:
-            #         data_w.writerow(e)
-        break
+    try:
+
+        for i in range(1, 101):
+
+            print('{}{}'.format('.'*35, i))
+
+            url = 'https://bitinfocharts.com/top-100-richest-bitcoin-addresses-{}.html'.format(i)
+            extract = slnm_driver.process_page(url)
+
+            if extract:
+
+                with open('data', 'w', newline='\n') as file:
+
+                    for c, e in enumerate(extract):
+                        print('{} {}'.format(c, e))
+
+                        file.write('{}'.format(e))
+
+    finally:
+        slnm_driver.quit('Done.')
