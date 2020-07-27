@@ -1,5 +1,5 @@
 import os
-import json
+import csv
 import selenium
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
@@ -47,22 +47,20 @@ if __name__ == '__main__':
     slnm_driver = Driver(script)
 
     try:
+        with open('data', 'w') as file:
 
-        for i in range(1, 101):
+            for i in range(1, 101):
 
-            print('{}{}'.format('.'*35, i))
+                print('{}{}'.format('.'*35, i))
 
-            url = 'https://bitinfocharts.com/top-100-richest-bitcoin-addresses-{}.html'.format(i)
-            extract = slnm_driver.process_page(url)
+                url = 'https://bitinfocharts.com/top-100-richest-bitcoin-addresses-{}.html'.format(i)
+                extract = slnm_driver.process_page(url)
 
-            if extract:
-
-                with open('data', 'w', newline='\n') as file:
+                if extract:
 
                     for c, e in enumerate(extract):
                         print('{} {}'.format(c, e))
-
-                        file.write('{}'.format(e))
+                        file.write('{}\n'.format(e))
 
     finally:
         slnm_driver.quit('Done.')

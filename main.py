@@ -33,14 +33,23 @@ def public_key_to_address(public_key):
 def main():
 
     file = open('data')
-    x = [i.strip() for i in file.readlines()]
+    wallets = [i.strip() for i in file.readlines()]
 
-    # while True:
-    #     private_key = generate_private_key()
-    #     public_key = private_key_to_public_key(private_key)
-    #     address = public_key_to_address(public_key)
+    i = 0
+    while True:
+        private_key = generate_private_key()
+        public_key = private_key_to_public_key(private_key)
+        address = public_key_to_address(public_key)
 
-    #     print("{} - {}".format(private_key, address))
+        print('{} {}'.format(i, address))
+        i+=1
+
+        if address in wallets:
+            with open(address, 'w') as file:
+                file.write('private: {}\npublic: {}'.format(private_key))
+
+            print('winner winner chicken dinner')
+            break
 
 if __name__ == '__main__':
     main()
