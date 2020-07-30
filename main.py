@@ -102,9 +102,18 @@ def main():
 
     for data in Crypt().chunks():
         with database.atomic():
-            Entry.insert_many(data, fields=[Entry.wallet, Entry.private_key]).execute()
+            try:
+                Entry.insert_many(data, fields=[Entry.wallet, Entry.private_key]).execute()
 
-
+            except IntegrityError:
+                for d in data:
+                    try:
+                        entry = Entry(
+                            wallet=d[0],
+                            private_key=d[1],)
+                        entry.save()
+                    except IntegrityError:
+                        pass
 
 
 if __name__ == '__main__':
