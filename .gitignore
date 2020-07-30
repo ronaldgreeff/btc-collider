@@ -1,2 +1,4 @@
 data
 geckodriver.log
+.db
+__pychache__
